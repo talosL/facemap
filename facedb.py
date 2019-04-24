@@ -75,6 +75,7 @@ def insertfacestr(face_token,img):
         cursor.execute(sql,(face_token,img,strname,time_now))
         conn.commit()
     except pymysql.err.IntegrityError:
+        print('face_token已重复')
         cursor.close()
         conn.close()
         return
