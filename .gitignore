@@ -1,5 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+.idea/
+.ipynb_checkpoints/
 *.py[cod]
 *$py.class
 
@@ -24,6 +26,7 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+admin.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

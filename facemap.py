@@ -5,13 +5,14 @@ import cv2
 import numpy
 import facedb
 import pymysql
+import admin
 from PIL import Image, ImageDraw, ImageFont
 
 
-key ="QuUk3HVVyC9L6MkORGGoPxoITCFDV5Mg"
-secret ="EO5bxHce9f5EUyPkRBus3Xu4ZQFLPu3y"
-faceset1 ="41a498d180df936ac888bc32cc80d982"
-strangfacest="06931086a62f020b9dc204ba200fee66"
+key =admin.facekey
+secret =admin.facesecret
+faceset1 =admin.faceset1
+strangfacest=admin.facestr1
 data = {"api_key":key, "api_secret": secret}
 
 

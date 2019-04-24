@@ -2,6 +2,7 @@ import pymysql
 import time
 import uuid
 import facemap as fm
+import admin
 pymysql.install_as_MySQLdb()
 
 #拍照
@@ -9,7 +10,7 @@ def takephoto(img):
     fp = open(img, 'rb')
     f1 = fp.read()
     time_now=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())#获取系统当前时间
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change="use face_db"
     cursor.execute(change)
@@ -28,7 +29,7 @@ def insertface(face_token,face_name,user_id,img=None):
         fp = open(img, 'rb')
         f1 = fp.read()
     time_now=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())#获取系统当前时间
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change="use face_db"
     cursor.execute(change)
@@ -48,7 +49,7 @@ def insertface(face_token,face_name,user_id,img=None):
 #从已确认的数据库人脸修改信息
 def updateface(face_token,face_name,user_id):
     time_now=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())#获取系统当前时间
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
@@ -64,7 +65,7 @@ def insertfacestr(face_token,img):
     # fp=open(img,'rb')
     # f1=fp.read()
     time_now=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())#获取系统当前时间
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change="use face_db"
     cursor.execute(change)
@@ -86,7 +87,7 @@ def insertfacestr(face_token,img):
 #从陌生人到已确认
 def strtoface(face_token,face_name,user_id):
     time_now=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())#获取系统当前时间
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change="use face_db"
     cursor.execute(change)
@@ -116,7 +117,7 @@ def strtoface(face_token,face_name,user_id):
 #今日来访
 def today(face_name,img):
     time_now = time.strftime("%H:%M:%S", time.localtime())  # 获取系统当前时间
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
@@ -139,7 +140,7 @@ def today(face_name,img):
 #来访记录
 def day(face_token,face_name,img):
     time_now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  # 获取系统当前时间
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
@@ -165,7 +166,7 @@ def emoday(face_name,photo,analyze):
     fp = open(photo, 'rb')
     img = fp.read()
     time_now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  # 获取系统当前时间
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
@@ -185,7 +186,7 @@ def emoday(face_name,photo,analyze):
 #陌生人今日来访
 def today_str(face_strname,img):
     time_now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  # 获取系统当前时间
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
@@ -208,7 +209,7 @@ def today_str(face_strname,img):
 #陌生人来访记录
 def daystr(face_token,face_strname,img):
     time_now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  # 获取系统当前时间
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
@@ -232,7 +233,7 @@ def daystr(face_token,face_strname,img):
 
 #删除陌生人信息
 def removestr(face_token):
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
@@ -244,7 +245,7 @@ def removestr(face_token):
 
 #删除人脸信息
 def removeface(face_token):
-    conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
+    conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
