@@ -356,29 +356,29 @@ def Ssearch(photo,face_token):
             return strinfo,day_str
 
 #清空faceset
-def removeall(tag):#传入一个标记，如果标记为0则清空已确认人脸信息，否则清空陌生人人脸信息，执行此函数需要验证管理员密码
-    if tag==0: #清空已确认人脸信息
-        delete_faceset(faceset1,0)
-        conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
-        cursor = conn.cursor()
-        change = "use face_db"
-        cursor.execute(change)
-        sql="TRUNCATE TABLE face_1"
-        cursor.execute(sql)
-        conn.commit()
-        cursor.close()
-        conn.close()
-    else:
-        delete_faceset(strangfacest, 0)
-        conn = pymysql.connect(host='47.94.193.74', user='root', passwd="jklove12345", db='mysql')
-        cursor = conn.cursor()
-        change = "use face_db"
-        cursor.execute(change)
-        sql = "TRUNCATE TABLE facestr_1"
-        cursor.execute(sql)
-        conn.commit()
-        cursor.close()
-        conn.close()
+# def removeall(tag):#传入一个标记，如果标记为0则清空已确认人脸信息，否则清空陌生人人脸信息，执行此函数需要验证管理员密码
+#     if tag==0: #清空已确认人脸信息
+#         delete_faceset(faceset1,0)
+#         conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
+#         cursor = conn.cursor()
+#         change = "use face_db"
+#         cursor.execute(change)
+#         sql="TRUNCATE TABLE face_1"
+#         cursor.execute(sql)
+#         conn.commit()
+#         cursor.close()
+#         conn.close()
+#     else:
+#         delete_faceset(strangfacest, 0)
+#         conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
+#         cursor = conn.cursor()
+#         change = "use face_db"
+#         cursor.execute(change)
+#         sql = "TRUNCATE TABLE facestr_1"
+#         cursor.execute(sql)
+#         conn.commit()
+#         cursor.close()
+#         conn.close()
 
 #对人脸添加信息
 def upadtaface(face_token,face_name,user_id,tag):#需要传入四个数值，第一个为当前人脸的face_token,第二个为需要更改的id，第三个为更改人的id,第四个为分类标记，0为已确认的人脸，其他为陌生人
