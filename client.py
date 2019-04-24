@@ -12,12 +12,8 @@ def cam():
     save_path = (r'.\img\20.jpg')
     save = (r'.\img\10.jpg')
     faceCascade = cv2.CascadeClassifier(path)
-    face_right = 0  # 识别的人脸有没有在faceset中发现，有置1
-    recognize_inf = 0  # 识别的人脸在faceset中发现，置1,持续显示id信息一定时间标志位
-    font = cv2.FONT_HERSHEY_SIMPLEX  # 字体设置
     i = 0
     m = []
-    temp = 0
     while (1):
         time_now = time.strftime("%Y-%m-%d_%H_%M_%S", time.localtime())  # 获取系统当前时间
         ret, img = capInput.read()  # 摄像头获取该帧图像
