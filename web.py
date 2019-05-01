@@ -23,10 +23,10 @@ def loapi(key,key1='',key2='',key3='',key4=''):
             if info != False:       #如果照片中人脸只有一人则进行搜索，如果人脸已存在则提示是否更新，不存在则提示为人脸输入信息
                 face_name=fm.websearch(info)
                 if face_name!=False:
-                    print(face_name)
+                    print(face_name) #是否需要更改人脸信息，需要则执行updateface
                     return info
                 else:
-                     return info
+                     return info   #执行uploadinfo
             else:                   #如果上传的照片没有人脸或者人脸大于2人则返回False，请重新上传
                 print("上传的照片中没有人脸信息或者人脸信息大于2人")
         except IndexError:
