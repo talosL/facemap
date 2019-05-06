@@ -18,7 +18,7 @@ def cam():
         time_now = time.strftime("%Y-%m-%d_%H_%M_%S", time.localtime())  # 获取系统当前时间
         ret, img = capInput.read()  # 摄像头获取该帧图像
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # 图像转灰度
-        faces = faceCascade.detectMultiScale(gray, 1.2, 7)  # 送入Haar特征分类器
+        faces = faceCascade.detectMultiScale(gray, 1.1, 7)  # 送入Haar特征分类器
         k = cv2.waitKey(1)  # 读键盘
         if k == ord('s'):
             cv2.imwrite(save_path, img)
@@ -33,7 +33,7 @@ def cam():
             cv2.imshow('face recognition', img)
         else:
             imgpath = (r'.\img\temp\\' + time_now + '.jpg')
-            if i >= 100:
+            if i >= 30:
                 i = 0
                 for x, y, w, h in faces:
                     roiImg = img[y - 50:y + h + 200, x - 25:x + w + 100]
@@ -81,19 +81,23 @@ def server():
                 try:
                     if face_information['faces']:
                         key1 = face_information['faces'][0]['face_token']  # face_token
-                        if face_information['faces']:
-                            faceinfo,db = fm.Ssearch(path,key1)
-                            user_id = faceinfo['results'][0]['user_id']  # 获得姓名
-                            temp_name=user_id
-                            print("{}:{}".format("来访人姓名", user_id))
-                        # m.append(user_id)
-                            face_inf = faceinfo['results'][0]['face_token']  # 获得人脸token
-                            if db:
-                                emo = fm.face_analyze(key1)
-                                facedb.emoday(user_id, imgpath1, emo)
+                        emo = fm.face_analyze(key1)
+                        faceinfo,db = fm.Ssearch(path,key1)
+                        user_id = faceinfo['results'][0]['user_id']  # 获得姓名
+                        temp_name=user_id
+                        print("{}:{}".format("来访人姓名", user_id))
+                    # m.append(user_id)
+                        face_inf = faceinfo['results'][0]['face_token']  # 获得人脸token
+                        if db:
+                            #emo = fm.face_analyze(key1)
+                            facedb.emoday(user_id, path, emo)
                         os.remove(path)
                         print("已处理")
                 except KeyError:
+                    try:
+                        os.remove(path)
+                    except FileNotFoundError:
+                        continue
                     continue
                 except FileNotFoundError:
                     continue

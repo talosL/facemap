@@ -154,7 +154,7 @@ def day(face_token,face_name,img):
         print("已添加来访记录")
         return True
     else:
-        sql="UPDATE day SET time = %s,face_path=%s WHERE face_name = %s"
+        sql="UPDATE day SET time = %s,face_path=%s WHERE face_name = %s AND (to_days(time) = to_days(now()))"
         cursor.execute(sql,(time_now,img,face_name))
         conn.commit()
         cursor.close()
@@ -172,7 +172,7 @@ def emoday(face_name,photo,analyze):
     change = "use face_db"
     cursor.execute(change)
     sql="UPDATE day SET time = %s ,face_path=%s,face_gander=%s, face_age=%s ,face_ethnicity= %s, face_emotions=%s" \
-        " WHERE face_name = %s"
+        " WHERE face_name = %s AND (to_days(time) = to_days(now()))"
     cursor.execute(sql, (time_now, img,analyze['gander'],analyze['age'],analyze['ethnicity'],analyze['emotions'],face_name))
     conn.commit()
     sql = "UPDATE today SET time = %s ,face_path=%s,face_gander=%s, face_age=%s ,face_ethnicity= %s, face_emotions=%s" \
@@ -223,7 +223,7 @@ def daystr(face_token,face_strname,img):
         print("已添加来访记录")
         return True
     else:
-        sql="UPDATE day_str SET time = %s,face_path=%s WHERE face_strname = %s"
+        sql="UPDATE day_str SET time = %s,face_path=%s WHERE face_strname = %s AND (to_days(time) = to_days(now()))"
         cursor.execute(sql,(time_now,img,face_strname))
         conn.commit()
         cursor.close()
