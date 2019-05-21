@@ -5,6 +5,7 @@ import facemap as fm
 import cv2
 import facedb
 import time
+import socket
 
 def cam():
     capInput = cv2.VideoCapture(0)
@@ -20,6 +21,7 @@ def cam():
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # 图像转灰度
         faces = faceCascade.detectMultiScale(gray, 1.1, 7)  # 送入Haar特征分类器
         k = cv2.waitKey(1)  # 读键盘
+        cv2.imwrite(save_path, img)
         if k == ord('s'):
             cv2.imwrite(save_path, img)
             imgresize = cv2.imread(save_path)
@@ -98,18 +100,45 @@ def server():
                         os.remove(path)
                     except FileNotFoundError:
                         continue
+                    except PermissionError:
+                        continue
                     continue
                 except FileNotFoundError:
                     continue
                     # img3=cv2.imread(r'.\img\2.jpg')
             #                     # cv2.imwrite(r'.\img\1.jpg', img3)
 
+def takephoto():
+    save_path = (r'.\img\20.jpg')
+    while True:
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            #s.connect(('47.94.193.74', 6666))
+            s.connect(('127.0.0.1', 6666))
+        except socket.error as msg:
+            print (msg)
+            time.sleep(5)
+            continue
+        data=s.recv(1024)
+        data=data.decode()
+        print (data)
+        if data=='takephoto':
+            facedb.takephoto(save_path)
+            senddata='ok'
+            senddata=senddata.encode()
+            s.send(senddata)
+            s.close()
+        else:
+            print('no')
 
+#多线程
 thread=[]
 t1=threading.Thread(target=cam)
 thread.append(t1)
 t2=threading.Thread(target=server)
 thread.append(t2)
+t3=threading.Thread(target=takephoto)
+thread.append(t3)
 
 if __name__ == "__main__":
     for t in thread:

@@ -1,12 +1,36 @@
 import facemap as fm
 import facedb
 import sys
+import socket
 import client
+
+def socket_service():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        s.bind(('0.0.0.0', 6666))
+        s.listen(10)
+    except socket.error as msg:
+        print(msg)
+        sys.exit(1)
+    print('Waiting connection...')
+    while True:
+        conn, addr = s.accept()
+        data = 'takephoto'
+        data = data.encode()
+        conn.send(data)
+        getdata = conn.recv(102400)
+        getdata = getdata.decode()
+        if getdata == 'ok':
+            # print('ok')
+            return True
+        else:
+            return False
 
 #api函数，对接socket接口，port：8888
 def loapi(key,key1='',key2='',key3='',key4=''):
     if key=='takephoto':
-        pass
+        socket_service()
     elif key=='updateface':
         # 更新已确认人脸参考如下
         # fm.upadtaface('2b6db1ffae9e1ee27095978f80820838','杨天瑞','1',0)
