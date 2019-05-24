@@ -40,8 +40,9 @@ def takephoto(img):
                 cursor.execute(sql, (f1, token1, name1, token2, name2,time_now))
                 conn.commit()
             else:
-                print('出错啦')
-                return False
+                sql = "INSERT INTO cam_photo (face_path,time) VALUES  (%s,%s)"
+                cursor.execute(sql, (f1, time_now))
+                conn.commit()
 
         else:
             sql = "INSERT INTO cam_photo (face_path,time) VALUES  (%s,%s)"

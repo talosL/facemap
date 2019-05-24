@@ -120,7 +120,8 @@ def takephoto():
             print (msg)
             time.sleep(5)
             continue
-        except ConnectionResetError:
+        except ConnectionResetError as msg:
+            print(msg)
             time.sleep(5)
             continue
         data=s.recv(1024)
