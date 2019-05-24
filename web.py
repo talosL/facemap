@@ -21,11 +21,13 @@ def socket_service():
         conn.send(data)
         getdata = conn.recv(102400)
         getdata = getdata.decode()
+        conn.close()
         if getdata == 'ok':
             # print('ok')
             return True
         else:
             return False
+
 
 #api函数，对接socket接口，port：8888
 def loapi(key,key1='',key2='',key3='',key4=''):
@@ -48,11 +50,13 @@ def loapi(key,key1='',key2='',key3='',key4=''):
                 face_name=fm.websearch(info)
                 if face_name!=False:
                     print(face_name) #是否需要更改人脸信息，需要则执行updateface
-                    return info
+                    return face_name
                 else:
-                     return info   #执行uploadinfo
+                     print('输入新的人脸信息')
+                     return True   #执行uploadinfo
             else:                   #如果上传的照片没有人脸或者人脸大于2人则返回False，请重新上传
                 print("上传的照片中没有人脸信息或者人脸信息大于2人")
+                return False
         except IndexError:
             print("参数传入有误，请重新输入3")
     elif key=='remove':

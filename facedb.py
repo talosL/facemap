@@ -14,9 +14,44 @@ def takephoto(img):
     cursor = conn.cursor()
     change="use face_db"
     cursor.execute(change)
-    sql = "INSERT INTO photo (face_path,time) VALUES  (%s,%s)"
-    cursor.execute(sql,(f1,time_now))
-    conn.commit()
+    face_info = fm.detect_face(img)
+    try:
+        if face_info['faces']:
+            if len(face_info['faces']) == 1:
+                token = face_info['faces'][0]['face_token']
+                name = fm.websearch(token)
+                if name ==False:
+                    name=insertfacestr(token, f1)
+                print("token:{},name:{}".format(token, name))
+                sql = "INSERT INTO cam_photo (face_path,face_token1,face_name1,time) VALUES  (%s,%s,%s,%s)"
+                cursor.execute(sql, (f1, token,name,time_now))
+                conn.commit()
+            elif len(face_info['faces']) == 2:
+                token1 = face_info['faces'][0]['face_token']
+                name1 = fm.websearch(token1)
+                if name1 ==False:
+                    name1=insertfacestr(token1, f1)
+                token2 = face_info['faces'][1]['face_token']
+                name2 = fm.websearch(token2)
+                if name2 ==False:
+                    name2=insertfacestr(token2, f1)
+                print("token:{},name:{} and token:{},name:{}".format(token1, name1, token2, name2))
+                sql = "INSERT INTO cam_photo (face_path,face_token1,face_name1,face_token2,face_name2,time) VALUES  (%s,%s,%s,%s,%s,%s)"
+                cursor.execute(sql, (f1, token1, name1, token2, name2,time_now))
+                conn.commit()
+            else:
+                print('出错啦')
+                return False
+
+        else:
+            sql = "INSERT INTO cam_photo (face_path,time) VALUES  (%s,%s)"
+            cursor.execute(sql, (f1, time_now))
+            conn.commit()
+    except KeyError:
+        return False
+    # sql = "INSERT INTO cam_photo (face_path,time) VALUES  (%s,%s)"
+    # cursor.execute(sql,(f1,time_now))
+    # conn.commit()
     cursor.close()
     conn.close()
     print("照片已保存")

@@ -401,5 +401,7 @@ def uploadphoto(img):#传入一张格式为jpg、png等常用图片格式文件
             else:
                 token=face_info['faces'][0]['face_token']
                 return token
+        else:
+            return False
     except KeyError:
         return False

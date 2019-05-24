@@ -28,4 +28,4 @@ while True:
         except:
             print("出错啦！！！")
         conn.send(data.encode())
-conn.close()
+    conn.close()
