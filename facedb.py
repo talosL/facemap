@@ -164,6 +164,9 @@ def strtoface(face_token,face_name,user_id):
         print('执行3')
         cursor.close()
         conn.close()
+    sql = "UPDATE today SET face_name = %s,user_id=%s,uptime=%s WHERE face_token = %s"
+    cursor.execute(sql, (face_name, user_id, time_now, face_token))
+    conn.commit()
     sql = "INSERT INTO day " \
           "(face_token,face_name,face_path,time) " \
           "SELECT distinct s.face_token,s.face_strname,s.face_path,s.time FROM day_str s " \
@@ -177,6 +180,9 @@ def strtoface(face_token,face_name,user_id):
         print('执行3')
         cursor.close()
         conn.close()
+    sql = "UPDATE day SET face_name = %s,user_id=%s,uptime=%s WHERE face_token = %s"
+    cursor.execute(sql, (face_name, user_id, time_now, face_token))
+    conn.commit()
     sql="DELETE FROM facestr_1 WHERE face_token = %s"
     cursor.execute(sql,face_token)
     conn.commit()
