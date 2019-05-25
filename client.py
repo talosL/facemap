@@ -114,8 +114,8 @@ def takephoto():
     while True:
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((admin.dbhost, 6666))
-            #s.connect(('127.0.0.1', 6666))
+            #s.connect((admin.dbhost, 6666))
+            s.connect(('127.0.0.1', 6666))
         except socket.error as msg:
             print (msg)
             time.sleep(5)

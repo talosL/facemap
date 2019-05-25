@@ -34,7 +34,7 @@ def set_timeout(num, callback):
 
 def after_timeout():  # 超时后的处理函数
     print('timeout')
-    return 1
+    return '1'
 
 
 @set_timeout(6, after_timeout)
@@ -47,7 +47,6 @@ def socket_service():
     except socket.error as msg:
         print(msg)
         sys.exit(1)
-    a=time
     print('Waiting connection...')
     while True:
         conn, addr = s.accept()
@@ -58,7 +57,7 @@ def socket_service():
         getdata = getdata.decode()
         conn.close()
         if getdata == 'ok':
-            # print('ok')
+            print('ok')
             return True
         else:
             return False
@@ -67,7 +66,8 @@ def socket_service():
 #api函数，对接socket接口，port：8888
 def loapi(key,key1='',key2='',key3='',key4=''):
     if key=='takephoto':
-        socket_service()
+        k=socket_service()
+        return k
     elif key=='updateface':
         # 更新已确认人脸参考如下
         # fm.upadtaface('2b6db1ffae9e1ee27095978f80820838','杨天瑞','1',0)

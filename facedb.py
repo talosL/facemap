@@ -92,6 +92,12 @@ def updateface(face_token,face_name,user_id):
     sql="UPDATE face_1 SET face_name = %s,user_id=%s,uptime=%s WHERE face_token = %s"
     cursor.execute(sql,(face_name,user_id,time_now,face_token))
     conn.commit()
+    sql="UPDATE day SET face_name = %s WHERE face_token = %s"
+    cursor.execute(sql, (face_name,  face_token))
+    conn.commit()
+    sql = "UPDATE today SET face_name = %s WHERE face_token = %s"
+    cursor.execute(sql, (face_name, face_token))
+    conn.commit()
     cursor.close()
     conn.close()
     print("face已修改")
@@ -145,14 +151,46 @@ def strtoface(face_token,face_name,user_id):
     sql="UPDATE face_1 SET face_name = %s,user_id=%s,uptime=%s WHERE face_token = %s"
     cursor.execute(sql, (face_name,user_id,time_now,face_token))
     conn.commit()
+    sql="INSERT INTO today " \
+        "(face_token,face_name,face_path,time) " \
+        "SELECT distinct s.face_token,s.face_strname,s.face_path,s.time FROM today_str s " \
+        "WHERE s.face_token=%s"
+    try:
+        print('执行1')
+        cursor.execute(sql,face_token)
+        print('执行2')
+        conn.commit()
+    except pymysql.err.IntegrityError:
+        print('执行3')
+        cursor.close()
+        conn.close()
+    sql = "INSERT INTO day " \
+          "(face_token,face_name,face_path,time) " \
+          "SELECT distinct s.face_token,s.face_strname,s.face_path,s.time FROM day_str s " \
+          "WHERE s.face_token=%s"
+    try:
+        print('执行1')
+        cursor.execute(sql, face_token)
+        print('执行2')
+        conn.commit()
+    except pymysql.err.IntegrityError:
+        print('执行3')
+        cursor.close()
+        conn.close()
     sql="DELETE FROM facestr_1 WHERE face_token = %s"
     cursor.execute(sql,face_token)
+    conn.commit()
+    sql = "DELETE FROM today_str WHERE face_token = %s"
+    cursor.execute(sql, face_token)
+    conn.commit()
+    sql = "DELETE FROM day_str WHERE face_token = %s"
+    cursor.execute(sql, face_token)
     conn.commit()
     cursor.close()
     conn.close()
 
 #今日来访
-def today(face_name,img):
+def today(face_token,face_name,img):
     time_now = time.strftime("%H:%M:%S", time.localtime())  # 获取系统当前时间
     conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
@@ -160,8 +198,8 @@ def today(face_name,img):
     cursor.execute(change)
     sel = "SELECT * FROM today WHERE face_name = %s"
     if(cursor.execute(sel,face_name)==0):
-        sql = "INSERT INTO today (face_name,face_path,time) VALUES  (%s,%s,%s)"
-        cursor.execute(sql, (face_name,img,time_now))
+        sql = "INSERT INTO today (face_token,face_name,face_path,time) VALUES  (%s,%s,%s,%s)"
+        cursor.execute(sql, (face_token,face_name,img,time_now))
         conn.commit()
         cursor.close()
         conn.close()
@@ -181,7 +219,7 @@ def day(face_token,face_name,img):
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
-    if today(face_name,img):
+    if today(face_token,face_name,img):
         sql = "INSERT INTO day (face_token,time,face_path,face_name) VALUES  (%s,%s,%s,%s)"
         cursor.execute(sql, (face_token, time_now,img,face_name))
         conn.commit()
@@ -221,7 +259,7 @@ def emoday(face_name,photo,analyze):
     print("已更新来访情绪")
 
 #陌生人今日来访
-def today_str(face_strname,img):
+def today_str(face_token,face_strname,img):
     time_now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  # 获取系统当前时间
     conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
@@ -229,8 +267,8 @@ def today_str(face_strname,img):
     cursor.execute(change)
     sel = "SELECT * FROM today_str WHERE face_strname = %s"
     if (cursor.execute(sel, face_strname) == 0):
-        sql = "INSERT INTO today_str (face_strname,time,face_path) VALUES  (%s,%s,%s)"
-        cursor.execute(sql, (face_strname, time_now,img))
+        sql = "INSERT INTO today_str (face_toekn,face_strname,time,face_path) VALUES  (%s,%s,%s,%s)"
+        cursor.execute(sql, (face_token,face_strname, time_now,img))
         conn.commit()
         cursor.close()
         conn.close()
@@ -250,9 +288,9 @@ def daystr(face_token,face_strname,img):
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
-    if today_str(face_strname,img):
-        sql = "INSERT INTO day_str (face_strname,face_path,time,face_token) VALUES  (%s,%s,%s,%s)"
-        cursor.execute(sql, (face_strname, img, time_now,face_token))
+    if today_str(face_token,face_strname,img):
+        sql = "INSERT INTO day_str (face_token,face_strname,face_path,time,face_token) VALUES  (%s,%s,%s,%s,%s)"
+        cursor.execute(sql, (face_token,face_strname, img, time_now,face_token))
         conn.commit()
         cursor.close()
         conn.close()
