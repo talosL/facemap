@@ -34,7 +34,7 @@ def set_timeout(num, callback):
 
 def after_timeout():  # 超时后的处理函数
     print('timeout')
-    return False
+    return 1
 
 
 @set_timeout(6, after_timeout)
