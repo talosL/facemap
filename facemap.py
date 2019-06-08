@@ -27,7 +27,7 @@ def detect_face(filepath):#传入图片文件
     #print((endtime - starttime).seconds)
     req_con = response.content.decode('utf-8')
     req_dict = JSONDecoder().decode(req_con)
-    print(req_dict)
+    #print(req_dict)
     return req_dict
 
 def detect_face_64(filepath):#传入base64编码
@@ -170,7 +170,7 @@ def face_search(image_file1,faceset_token):
     r = requests.post(url,files = files,params = parameter)
     req_con = r.content.decode('utf-8')
     req_dict = JSONDecoder().decode(req_con)
-    print(req_dict)
+    #print(req_dict)
     return req_dict
 
 #基于token的人脸搜索
@@ -185,7 +185,7 @@ def face_searchtoken(face_token,faceset_token):
     r = requests.post(url,data = parameter)
     req_con = r.content.decode('utf-8')
     req_dict = JSONDecoder().decode(req_con)
-    print(req_dict)
+    #print(req_dict)
     return req_dict
 
 #为face设置信息
@@ -246,7 +246,7 @@ def face_analyze(face_inf):
     if (analyzes['emotions'] == 'anger'):
         analyzes['emotions'] = '生气'
     if (analyzes['emotions'] == 'disgust'):
-        analyzes['emotions'] = '厌恶'
+        analyzes['emotions'] = '生气'
     if (analyzes['emotions'] == 'fear'):
         analyzes['emotions'] = '恐惧'
     if (analyzes['emotions'] == 'happiness'):

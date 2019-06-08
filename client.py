@@ -21,6 +21,7 @@ def cam():
         ret, img = capInput.read()  # 摄像头获取该帧图像
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # 图像转灰度
         faces = faceCascade.detectMultiScale(gray, 1.1, 7)  # 送入Haar特征分类器
+        #print(faces)
         k = cv2.waitKey(1)  # 读键盘
         cv2.imwrite(save_path, img)
         if k == ord('s'):
@@ -62,7 +63,7 @@ def server():
         img_path1 = gb.glob(r".\img\temp\\*.jpg")
         dir_path = (r".\img\temp\\")
         file_num=len([name for name in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, name))])
-        print(file_num)
+        #print(file_num)
         if file_num <1 :
             print("sleep")
             time.sleep(2)
@@ -114,8 +115,8 @@ def takephoto():
     while True:
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            #s.connect((admin.dbhost, 6666))
-            s.connect(('127.0.0.1', 6666))
+            s.connect((admin.dbhost, 6666))
+            #s.connect(('127.0.0.1', 6666))
         except socket.error as msg:
             print (msg)
             time.sleep(5)
