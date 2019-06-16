@@ -19,26 +19,26 @@ def takephoto(img):
         if face_info['faces']:
             if len(face_info['faces']) == 1:
                 token = face_info['faces'][0]['face_token']
-                name = fm.websearch(token)
-                if name ==False:
-                    name=insertfacestr(token, f1)
+                info = fm.websearch(token,img)
+                name=info['results'][0]['user_id']
+                # if name ==False:
+                #     name=insertfacestr(token, f1)
                 print("token:{},name:{}".format(token, name))
                 sql = "INSERT INTO cam_photo (face_path,face_token1,face_name1,time) VALUES  (%s,%s,%s,%s)"
                 cursor.execute(sql, (f1, token,name,time_now))
                 conn.commit()
-            elif len(face_info['faces']) == 2:
-                token1 = face_info['faces'][0]['face_token']
-                name1 = fm.websearch(token1)
-                if name1 ==False:
-                    name1=insertfacestr(token1, f1)
-                token2 = face_info['faces'][1]['face_token']
-                name2 = fm.websearch(token2)
-                if name2 ==False:
-                    name2=insertfacestr(token2, f1)
-                print("token:{},name:{} and token:{},name:{}".format(token1, name1, token2, name2))
-                sql = "INSERT INTO cam_photo (face_path,face_token1,face_name1,face_token2,face_name2,time) VALUES  (%s,%s,%s,%s,%s,%s)"
-                cursor.execute(sql, (f1, token1, name1, token2, name2,time_now))
-                conn.commit()
+            # elif len(face_info['faces']) == 2:
+            #     token1 = face_info['faces'][0]['face_token']
+            #     info = fm.websearch(token1,img)
+            #     name1=info['results'][0]['user_id']
+            #     token2 = face_info['faces'][1]['face_token']
+            #     name2 = fm.websearch(token2,img)
+            #     if name2 ==False:
+            #         name2=insertfacestr(token2, f1)
+            #     print("token:{},name:{} and token:{},name:{}".format(token1, name1, token2, name2))
+            #     sql = "INSERT INTO cam_photo (face_path,face_token1,face_name1,face_token2,face_name2,time) VALUES  (%s,%s,%s,%s,%s,%s)"
+            #     cursor.execute(sql, (f1, token1, name1, token2, name2,time_now))
+            #     conn.commit()
             else:
                 sql = "INSERT INTO cam_photo (face_path,time) VALUES  (%s,%s)"
                 cursor.execute(sql, (f1, time_now))
