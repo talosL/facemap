@@ -82,14 +82,9 @@ def loapi(key,key1='',key2='',key3='',key4=''):
         try:
             info = fm.uploadphoto(key1) #key1为图片路径
             if info != False:       #如果照片中人脸只有一人则进行搜索，如果人脸已存在则提示是否更新，不存在则提示为人脸输入信息
-                face_name=fm.websearch(info)
-                facedb.uploadimg(key1)
-                if face_name!=False:
-                    print(face_name) #是否需要更改人脸信息，需要则执行updateface
-                    return face_name
-                else:
-                     print('输入新的人脸信息')
-                     return True   #执行uploadinfo
+                face_name=fm.websearch(info,key1)
+                facedb.uploadimg(key1,face_name)
+                return True
             else:                   #如果上传的照片没有人脸或者人脸大于2人则返回False，请重新上传
                 print("上传的照片中没有人脸信息或者人脸信息大于2人")
                 return False

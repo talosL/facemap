@@ -308,13 +308,15 @@ def Msearch(photo):
     print(user_id)
 
 #单人脸搜索不加入数据库
-def websearch(facetoken):
+def websearch(facetoken,img):
+    fp = open(img, 'rb')
+    img = fp.read()
     face_info=face_searchtoken(facetoken,faceset1)
     confidence = face_info['results'][0]['confidence']
     thresholds = face_info['thresholds']['1e-5']
     if confidence > 75 and thresholds < confidence:  # 置信度阈值判断
         user_id=face_info['results'][0]['user_id']  # face姓名添加
-        return user_id
+        return face_info
     else:
         strinfo = face_searchtoken(facetoken,strangfacest)
         confidence = face_info['results'][0]['confidence']
@@ -322,9 +324,11 @@ def websearch(facetoken):
         token = strinfo['results'][0]['face_token']
         if confidence > 75 and thresholds < confidence:  # 置信度阈值判断
             str_name=strinfo['results'][0]['user_id']
-            return str_name
+            return strinfo
         else:
-            return False
+            str = facedb.insertfacestr(facetoken, img)
+            strinfo = face_searchtoken(facetoken, strangfacest)
+            return strinfo
 
 #单人脸搜索加入数据库信息
 def Ssearch(photo,face_token):

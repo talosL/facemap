@@ -336,16 +336,18 @@ def removeface(face_token):
     cursor.close()
     conn.close()
 
-def uploadimg(img):
+def uploadimg(img,face_name):
     fp = open(img, 'rb')
     img = fp.read()
+    token=face_name['results'][0]['face_token']
+    user_id=face_name['results'][0]['user_id']
     time_now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  # 获取系统当前时间
     conn = pymysql.connect(host=admin.dbhost, user=admin.dbuser, passwd=admin.dbpasswd, db='mysql')
     cursor = conn.cursor()
     change = "use face_db"
     cursor.execute(change)
-    sql="INSERT INTO photo (face_path,time) VALUES  (%s,%s)"
-    cursor.execute(sql, (img,time_now))
+    sql="INSERT INTO photo (face_path,face_token1,face_name1,time) VALUES  (%s,%s,%s,%s)"
+    cursor.execute(sql, (img,token,user_id,time_now))
     conn.commit()
     cursor.close()
     conn.close()
