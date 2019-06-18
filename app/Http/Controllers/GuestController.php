@@ -30,7 +30,7 @@ class GuestController extends Controller
                     return back()->with('success', "修改成功");
             }
         }
-        return back()->with('fail', "修改失败");
+        return back()->with('fail', "修改失败，socket连接错误");
     }
 
     public function change_str(Request $request)
@@ -42,6 +42,6 @@ class GuestController extends Controller
            return back()->with('success', "修改成功");
             }
         }
-        return back()->with('fail', "修改失败");
+        return back()->with('fail', "修改失败，socket连接错误");
     }
 }

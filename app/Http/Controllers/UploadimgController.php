@@ -23,13 +23,18 @@ class UploadimgController extends Controller
         if ($request->hasFile('upimg')) {
             $file = $request->file('upimg');
             //$file=Image::
-            $file = Image::make($file)->resize(200,null, function($constraint){
+            $file = Image::make($file)->resize(800,null, function($constraint){
                 $constraint->aspectRatio();});
             $file->save(env('IMAGE_SAVE_PATH'));
             //$re=func::locapi('upload',env('IMAGE_SAVE_PATH'));
-            if(0==func::locapi('upload',env('IMAGE_SAVE_PATH')))
-            return back()->with('success',"上传成功");
+            if(-1!=$ret=func::locapi('upload',"/www/wwwroot/millyface.dlinks.cn/public/".env('IMAGE_SAVE_PATH')))
+            {
+                if($ret==1)
+                return back()->with('success',"上传成功");
+                else
+                    return back()->with('warning',"未检测到或检测到多张人脸，请重新上传");
+            }
         }
-        return back()->with('fail',"上传失败".$re);
+        return back()->with('fail',"服务器连接失败,请联系管理员");
     }
 }

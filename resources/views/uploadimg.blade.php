@@ -10,6 +10,15 @@
         　　　　{{session('success')}}
         　　</div>
 @endif
+@if(!empty(session('warning')))
+    　　<div class="alert alert-warning alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        　　　　{{session('warning')}}
+        　　</div>
+@endif
 @if(!empty(session('fail')))
     　　<div class="alert alert-danger  alert-dismissable" role="alert">
         <button type="button" class="close" data-dismiss="alert"

@@ -25,7 +25,10 @@ Route::get('/today', 'TodayController@index')->name('today');
 Route::get('/history', 'HistoryController@index')->name('history');
 Route::get('/uploadimg', 'UploadimgController@index')->name('uploadimg');
 Route::post('/upload_img', 'UploadimgController@upload')->name('upload_img');
-Route::get('/setting', 'SettingController@index')->name('setting');
+
+Route::get('/cam_history', 'SettingController@cam_history')->name('cam_history');
+Route::get('/upload_history', 'SettingController@upload_history')->name('upload_history');
+
 Route::get('/today_ac', 'TodayController@ac')->name('today_ac');
 Route::get('/today_str', 'TodayController@stranger')->name('today_str');
 Route::get('/history_ac', 'HistoryController@ac')->name('history_ac');

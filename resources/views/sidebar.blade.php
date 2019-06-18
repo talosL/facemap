@@ -11,7 +11,7 @@
 				<li ><a href="{{url('history_ac')}}" target="Mainindex"><i class="ico-3"></i>历史来访</a></li>
 				<li ><a href="{{url('guest_manager_ac')}}" target="Mainindex"><i class="ico-5"></i>访客管理</a></li>
 				<li><a href="{{url('uploadimg')}}" target="Mainindex"><i class="ico-4"></i>照片上传</a></li>
-				<li><a href="{{url('setting')}}" target="Mainindex"><i class="ico-7"></i>设置</a></li>
+				<li><a href="{{url('cam_history')}}" target="Mainindex"><i class="ico-7"></i>操作记录</a></li>
 				<li><nav >
 						<div class="container" >
 							<div >
