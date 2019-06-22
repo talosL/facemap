@@ -65,7 +65,7 @@ def server():
         file_num=len([name for name in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, name))])
         #print(file_num)
         if file_num <1 :
-            print("sleep")
+            #print("sleep")
             time.sleep(2)
             continue
 
@@ -81,7 +81,7 @@ def server():
                     face_information = fm.detect_face(path)
                 except FileNotFoundError:
                     continue
-                print(face_information)
+                #print(face_information)
                 try:
                     if face_information['faces']:
                         key1 = face_information['faces'][0]['face_token']  # face_token
@@ -96,7 +96,7 @@ def server():
                             #emo = fm.face_analyze(key1)
                             facedb.emoday(user_id, path, emo)
                         os.remove(path)
-                        print("已处理")
+                        #print("已处理")
                 except KeyError:
                     try:
                         os.remove(path)
@@ -118,7 +118,7 @@ def takephoto():
             s.connect((admin.dbhost, 6666))
             #s.connect(('127.0.0.1', 6666))
         except socket.error as msg:
-            print (msg)
+            #print (msg)
             time.sleep(5)
             continue
         except ConnectionResetError as msg:

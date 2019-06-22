@@ -199,7 +199,7 @@ def face_SetUserID(face_token,user_id):
             }
     r = requests.post(url,params = parameter)
     req_dict = r.json()
-    print(req_dict)
+    #print(req_dict)
     return req_dict
 
 #cv格式转换
@@ -255,7 +255,8 @@ def face_analyze(face_inf):
         analyzes['emotions'] = '伤心'
     if (analyzes['emotions'] == 'surprise'):
         analyzes['emotions'] = '惊讶'
-    print(analyzes)
+    #print(analyzes)
+    print("来访者情绪：{}".format(analyzes['emotions']))
     return analyzes
 
 #移除faceset中的face信息
